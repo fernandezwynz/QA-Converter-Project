@@ -1,60 +1,95 @@
-const chai = require('chai');
+/*
+ *
+ *
+ *       FILL IN EACH UNIT TEST BELOW COMPLETELY
+ *       -----[Keep the tests in the same order!]----
+ *       (if additional are added, keep them at the very end!)
+ */
+
+const chai = require("chai");
 let assert = chai.assert;
-const ConvertHandler = require('../controllers/convertHandler.js');
+const ConvertHandler = require("../controllers/convertHandler.js");
 
 let convertHandler = new ConvertHandler();
 
-suite('Unit Tests', function(){
-  suite('Function convertHandler.getNum(input)', function() {
-    test('Whole number input', function(done) {
-      let input = '32L';
+suite("Unit Tests", function () {
+  suite("Function convertHandler.getNum(input)", function () {
+    test("Whole number input", function (done) {
+      let input = "32L";
       assert.equal(convertHandler.getNum(input), 32);
       done();
     });
-    test('Decimal number input', function(done) {
-      let input = '32.2L';
-      assert.equal(convertHandler.getNum(input), 32.5);
+
+    test("Decimal Input", function (done) {
+      let input = "32.2L";
+      assert.equal(convertHandler.getNum(input), 32.2);
       done();
     });
 
-    test('Fractional input', function(done) {
-      let input = '32/3L';
-      assert.equal(convertHandler.getNum(input), 16);
+    test("Fractional Input", function (done) {
+      let input = "32/3L";
+      assert.equal(convertHandler.getNum(input), 32 / 3);
       done();
     });
 
-    test('Fractional input with decimal', function(done) {
-      let input = '32/3.3L';
-      assert.equal(convertHandler.getNum(input), 10.7);
+    test("Fractional Input w/ Decimal", function (done) {
+      let input = "9/3.3L";
+      assert.equal(convertHandler.getNum(input), 9 / 3.3);
+      done();
+      //done();
+    });
+
+    test("Invalid Input (double fraction)", function (done) {
+      let input = "32/3/3L";
+      assert.equal(convertHandler.getNum(input), undefined);
       done();
     });
 
-    test('Invalid input (double fraction)', function(done) {
-      let input = '32/3/3L';
-      assert.equal(convertHandler.getNum(input), 'invalid number');
-      done();
-    });
-
-    test('No number input', function(done) {
-      let input = 'L';
+    test("No Numerical Input", function (done) {
+      let input = "L";
       assert.equal(convertHandler.getNum(input), 1);
       done();
     });
   });
 
-  suite('Function convertHandler.getUnit(input)', function() {
-    test('For each valid unit inputs', function(done) {
-      let input = ['gal', 'l', 'mi', 'km', 'lbs', 'kg', 'GAL', 'L', 'MI', 'KM', 'LBS', 'KG'];
-      let output = ['gal', 'L', 'mi', 'km', 'lbs', 'kg', 'gal', 'L', 'mi', 'km', 'lbs', 'kg'];
-      input.forEach(function(ele, index) {
+  suite("Function convertHandler.getUnit(input)", function () {
+    test("For Each Valid Unit Inputs", function (done) {
+      let input = [
+        "gal",
+        "l",
+        "mi",
+        "km",
+        "lbs",
+        "kg",
+        "GAL",
+        "L",
+        "MI",
+        "KM",
+        "LBS",
+        "KG",
+      ];
+      let output = [
+        "gal",
+        "L",
+        "mi",
+        "km",
+        "lbs",
+        "kg",
+        "gal",
+        "L",
+        "mi",
+        "km",
+        "lbs",
+        "kg",
+      ];
+      input.forEach(function (ele, index) {
         assert.equal(convertHandler.getUnit(ele), output[index]);
       });
       done();
     });
 
-    test('Unknown unit input', function(done) {
-      let input = '32g';
-      assert.equal(convertHandler.getUnit('34kilograms'), undefined);
+    test("Unknown Unit Input", function (done) {
+      assert.equal(convertHandler.getUnit("34kilograms"), undefined);
       done();
     });
   });
